@@ -1,0 +1,12 @@
+SecurityAlert
+| summarize AlertCount = count() by AlertName, Tactics
+| extend AttackType = case(
+    AlertName contains "Brute", "Brute Force",
+    AlertName contains "Phishing", "Phishing",
+    AlertName contains "Malware", "Malware",
+    AlertName contains "Ransomware", "Ransomware",
+    AlertName contains "DDoS", "DDoS",
+    "Other"
+)
+| summarize TotalAlerts = sum(AlertCount) by AttackType
+| order by TotalAlerts desc
