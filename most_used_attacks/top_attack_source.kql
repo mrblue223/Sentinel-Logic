@@ -1,0 +1,10 @@
+SecurityAlert
+| summarize AlertCount = count() by 
+    StartIP = tostring(parse_json(ExtendedProperties).AttackerIP),
+    EndIP = tostring(parse_json(ExtendedProperties).VictimIP)
+| join kind=inner (
+    ipgeo_CL // GeoIP data table
+    | summarize by IP, Country
+) on $left.StartIP == $right.IP
+| summarize TotalAttacks = sum(AlertCount) by Country
+| top 10 by TotalAttacks desc
