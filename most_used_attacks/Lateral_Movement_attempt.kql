@@ -1,0 +1,6 @@
+SecurityEvent
+| where EventID in (4648, 4624) // Credential use and logon
+| where SubjectUserName != TargetUserName
+| summarize LateralMovementAttempts = count() 
+    by SubjectUserName, TargetUserName, Computer
+| where LateralMovementAttempts > 5
