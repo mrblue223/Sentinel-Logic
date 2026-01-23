@@ -1,5 +1,0 @@
-SecurityEvent
-| where EventID == 4625 // Failed logon attempts
-| summarize AttackCount = count() by TargetAccount
-| top 10 by AttackCount desc
-| render columnchart
