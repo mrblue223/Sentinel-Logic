@@ -1,7 +1,0 @@
-SecurityAlert
-| where AlertSeverity == "High"
-| summarize 
-    HighSeverityAlerts = count(),
-    DistinctAttackTypes = dcount(AlertName)
-    by CompromisedEntity
-| top 10 by HighSeverityAlerts desc
