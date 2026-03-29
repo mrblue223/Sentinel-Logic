@@ -1,3 +1,0 @@
-SecurityAlert
-| summarize AttackCount = count() by bin(TimeGenerated, 1h)
-| render timechart
