@@ -1,0 +1,15 @@
+let TimeRange = ago(7d);
+SecurityAlert
+| where TimeGenerated >= TimeRange
+| summarize 
+    TotalAlerts = count(),
+    HighSeverity = countif(AlertSeverity == "High"),
+    MediumSeverity = countif(AlertSeverity == "Medium"),
+    DistinctAttackers = dcount(CompromisedEntity),
+    AttackTypes = make_set(AlertName)
+| project 
+    TotalAlerts,
+    HighSeverityAlerts = HighSeverity,
+    MediumSeverityAlerts = Medium,
+    DistinctTargets = DistinctAttackers,
+    CommonAttackTypes = AttackTypes
